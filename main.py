@@ -17,7 +17,6 @@ from matplotlib.collections import LineCollection
 import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow import keras
-import tensorflowjs as tfjs
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -223,7 +222,7 @@ class MoveNetPreprocessor(object):
 							dtype=np.float32)
 
 					# Write the landmark coordinates to its per-class CSV file
-					coordinates = pose_landmarks.flatten().astype(np.str).tolist()
+					coordinates = pose_landmarks.flatten().astype(str).tolist()
 					csv_out_writer.writerow([image_name] + coordinates)
 
 				if not valid_image_count:
@@ -542,11 +541,10 @@ tflite_model = converter.convert()
 
 print('Model size: %d KB' % (len(tflite_model) / 1024))
 
+model.save('pose_model.keras')
+
 with open('pose_classifier.tflite', 'wb') as f:
 	f.write(tflite_model)
-
-# Convert to Tensorflow.js model
-tfjs.converters.save_keras_model(model, 'tfjs_model')
 
 with open('pose_labels.txt', 'w') as f:
 	f.write('\n'.join(class_names))
