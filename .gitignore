@@ -161,9 +161,12 @@ cython_debug/
 
 ########################################################################
 
+# Downloaded files
 examples/
 yoga_cg/
 *.tflite
+
+# Generated files
 pose*
 *_data.csv
 *.hdf5
